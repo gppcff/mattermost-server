@@ -129,6 +129,12 @@ func UpdateAssetsSubpathFromConfig(config *model.Config) error {
 }
 
 func GetSubpathFromConfig(config *model.Config) (string, error) {
+	if config == nil {
+		return "", errors.New("no config provided")
+	} else if config.ServiceSettings.SiteURL == nil {
+		return "", errors.New("no SiteURL configured")
+	}
+
 	u, err := url.Parse(*config.ServiceSettings.SiteURL)
 	if err != nil {
 		return "", errors.Wrap(err, "failed to parse SiteURL from config")
